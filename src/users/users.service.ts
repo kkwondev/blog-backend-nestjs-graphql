@@ -26,7 +26,13 @@ export class UsersService {
    */
 
   async getUserByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({ email });
+    const user = await this.userRepository.findOne({
+      where: {
+        email: email,
+      },
+    });
+    console.log(user);
+    return user;
   }
 
   /**
@@ -35,8 +41,8 @@ export class UsersService {
    * @returns User
    */
   async createUser(user: CreateUserDto): Promise<User> {
-    this.getUserByEmail(user.email);
-    if (user)
+    const comfirm = await this.getUserByEmail(user.email);
+    if (comfirm)
       throw new HttpException(
         '이미 생성된 이메일 입니다.',
         HttpStatus.NOT_FOUND,
