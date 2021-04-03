@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './interfaces/create-user.dto';
@@ -20,11 +20,27 @@ export class UsersService {
   }
 
   /**
+   * 유저 이메일 조회
+   * @param email
+   * @returns user | undefiend
+   */
+
+  async getUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({ email });
+  }
+
+  /**
    * 유저 생성
    * @param user
    * @returns User
    */
   async createUser(user: CreateUserDto): Promise<User> {
+    this.getUserByEmail(user.email);
+    if (user)
+      throw new HttpException(
+        '이미 생성된 이메일 입니다.',
+        HttpStatus.NOT_FOUND,
+      );
     return await this.userRepository.save(user);
   }
 }
