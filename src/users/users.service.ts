@@ -23,9 +23,10 @@ export class UsersService {
   /**
    * 하나 유저 조회
    * @param id
+   * @returns User |
    */
 
-  async findOne(id: number): Promise<User | undefined> {
+  async findOne(id: number): Promise<User | HttpException> {
     const user = await this.userRepository.findOne({ id });
     if (!user)
       throw new HttpException('없는 회원입니다.', HttpStatus.NOT_FOUND);
@@ -37,7 +38,7 @@ export class UsersService {
    * @returns user | undefiend
    */
 
-  async getUserByEmail(email: string): Promise<User> {
+  async getUserByEmail(email: string): Promise<User | HttpException> {
     const user = await this.userRepository.findOne({ email });
     return user;
   }
