@@ -11,6 +11,7 @@ type CreateUserDto {
 
 type Query {
   getUsers: [CreateUserDto!]!
+  getUser(id: Float!): CreateUserDto!
 }
 
 type Mutation {

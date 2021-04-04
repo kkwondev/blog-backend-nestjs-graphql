@@ -21,6 +21,17 @@ export class UsersService {
   }
 
   /**
+   * 하나 유저 조회
+   * @param id
+   */
+
+  async findOne(id: number): Promise<User | undefined> {
+    const user = await this.userRepository.findOne({ id });
+    if (!user)
+      throw new HttpException('없는 회원입니다.', HttpStatus.NOT_FOUND);
+    return user;
+  }
+  /**
    * 유저 이메일 조회
    * @param email
    * @returns user | undefiend
