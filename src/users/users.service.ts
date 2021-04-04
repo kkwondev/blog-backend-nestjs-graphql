@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './interfaces/create-user.dto';
 import { User } from './users.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -42,6 +43,11 @@ export class UsersService {
         '이미 생성된 이메일 입니다.',
         HttpStatus.NOT_FOUND,
       );
-    return await this.userRepository.save(user);
+    const hashPassword = await bcrypt.hash(user.password, 10);
+    return await this.userRepository.save({
+      email: user.email,
+      password: hashPassword,
+      nickname: user.nickname,
+    });
   }
 }
