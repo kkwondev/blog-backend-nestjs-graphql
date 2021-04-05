@@ -9,6 +9,10 @@ type CreateUserDto {
   nickname: String!
 }
 
+type AuthResponseDto {
+  access_token: String!
+}
+
 type Query {
   getUsers: [CreateUserDto!]!
   getUser(id: Float!): CreateUserDto!
@@ -16,10 +20,16 @@ type Query {
 
 type Mutation {
   createUser(user: InputUser!): CreateUserDto!
+  login(user: InputAuth!): AuthResponseDto!
 }
 
 input InputUser {
   email: String!
   password: String!
   nickname: String!
+}
+
+input InputAuth {
+  email: String!
+  password: String!
 }
