@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
@@ -8,8 +14,9 @@ import { InputAuth } from './interfaces/auth.input';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private JwtService: JwtService,
+    @Inject(forwardRef(() => UsersService))
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
   /**
@@ -40,7 +47,7 @@ export class AuthService {
     }
     const payload = { email: validateUser.email, id: validateUser.id };
     return {
-      access_token: this.JwtService.sign(payload),
+      access_token: this.jwtService.sign(payload),
     };
   }
 }

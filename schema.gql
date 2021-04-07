@@ -2,15 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthResponseDto {
+  access_token: String!
+}
+
 type CreateUserDto {
   id: Int!
   email: String!
   password: String!
   nickname: String!
-}
-
-type AuthResponseDto {
-  access_token: String!
 }
 
 type Query {
