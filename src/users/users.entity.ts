@@ -1,16 +1,17 @@
 import { ObjectType } from '@nestjs/graphql';
+import { Post } from 'src/posts/entities/posts.entity';
 import {
-  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('User')
 @ObjectType('User')
-export class User extends BaseEntity {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -28,4 +29,7 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany((type) => Post, (post) => post.user)
+  posts: Post[];
 }
