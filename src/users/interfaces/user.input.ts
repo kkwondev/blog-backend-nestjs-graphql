@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsEmail } from 'class-validator';
 
 @InputType()
 export class InputUser {
   @Field()
-  @IsString()
+  @IsEmail()
   readonly email: string;
 
   @Field()

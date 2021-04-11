@@ -1,10 +1,10 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { IsInt, IsString } from 'class-validator';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { IsNumber, IsString } from 'class-validator';
 
 @ObjectType()
 export class CreateUserDto {
-  @Field(() => Int)
-  @IsInt()
+  @Field(() => Number)
+  @IsNumber()
   readonly id?: number;
 
   @Field(() => String)
