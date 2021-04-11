@@ -1,13 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsNumber, IsString } from 'class-validator';
-import { User } from 'src/users/users.entity';
+import { Category } from 'src/categories/entities/categories.entity';
+import { User } from 'src/users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -18,7 +18,6 @@ import { Tag } from './tags.entity';
 export class Post {
   @PrimaryGeneratedColumn()
   @Field((type) => Number)
-  @IsNumber()
   id: number;
 
   @Field((type) => String)
@@ -47,4 +46,7 @@ export class Post {
 
   @OneToMany((type) => Tag, (tags) => tags.post)
   tags: Tag[];
+
+  @ManyToOne((type) => Category, (category) => category.posts)
+  category: Category;
 }
