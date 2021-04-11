@@ -1,4 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
+import { CoreEntity } from 'src/common/entities/core.entity';
 import { Post } from 'src/posts/entities/posts.entity';
 import {
   Column,
@@ -11,10 +12,7 @@ import {
 
 @Entity('User')
 @ObjectType('User')
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends CoreEntity {
   @Column()
   email: string;
 
@@ -23,12 +21,6 @@ export class User {
 
   @Column()
   nickname: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @OneToMany((type) => Post, (post) => post.user)
   posts: Post[];
