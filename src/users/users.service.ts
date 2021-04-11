@@ -53,7 +53,7 @@ export class UsersService {
     if (comfirm)
       throw new HttpException(
         '이미 생성된 이메일 입니다.',
-        HttpStatus.NOT_FOUND,
+        HttpStatus.BAD_REQUEST,
       );
     const hashPassword = await bcrypt.hash(user.password, 10);
     return await this.userRepository.save({
