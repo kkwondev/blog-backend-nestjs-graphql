@@ -24,12 +24,15 @@ export class Post extends CoreEntity {
   @IsString()
   thumbnail_img?: string;
 
+  @Field((type) => User)
   @ManyToOne((type) => User, (user) => user.posts)
   user: User;
 
+  @Field((type) => [Tag], { nullable: true })
   @OneToMany((type) => Tag, (tags) => tags.post)
   tags: Tag[];
 
+  @Field((type) => Category)
   @ManyToOne((type) => Category, (category) => category.posts)
   category: Category;
 }
