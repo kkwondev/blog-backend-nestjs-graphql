@@ -49,6 +49,7 @@ type AuthResponseDto {
 type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
+  currentUser: User!
   getCategories: [Category!]!
 }
 
