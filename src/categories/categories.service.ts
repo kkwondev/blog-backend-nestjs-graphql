@@ -30,6 +30,23 @@ export class CategoriesService {
   }
 
   /**
+   * 카테고리 ID 조회
+   * @param id
+   */
+  async findByid(id: number): Promise<Category | undefined> {
+    const category = await this.categoryRepository.findOne({ id });
+    if (!category)
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: '없는 카테고리 입니다',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    return category;
+  }
+
+  /**
    * 카테고리 등록
    * @param createCategoryInput
    * @returns Category | HttpException

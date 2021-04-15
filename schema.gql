@@ -50,7 +50,9 @@ type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
   currentUser: User!
+  getPosts: [Post!]!
   getCategories: [Category!]!
+  getCategory(id: Float!): Category!
 }
 
 type Mutation {

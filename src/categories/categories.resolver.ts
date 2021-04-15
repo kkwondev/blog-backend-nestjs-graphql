@@ -11,6 +11,11 @@ export class CategoriesResolver {
   async getCategories(): Promise<Category[]> {
     return await this.categoriesService.getCategories();
   }
+
+  @Query(() => Category)
+  async getCategory(@Args('id') id: number): Promise<Category> {
+    return await this.categoriesService.findByid(id);
+  }
   @Mutation(() => Category)
   async createCategory(
     @Args('category') category: CreateCategoryInput,
