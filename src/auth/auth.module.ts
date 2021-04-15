@@ -17,14 +17,7 @@ import { AuthGuard } from './guards/auth.guard';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [
-    AuthService,
-    AuthResolver,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+  providers: [AuthService, AuthResolver],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

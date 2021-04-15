@@ -28,6 +28,7 @@ export class UsersResolver {
   }
 
   @Query(() => User)
+  @UseGuards(AuthGuard)
   currentUser(@AuthUser() authUser: User) {
     return authUser;
   }
