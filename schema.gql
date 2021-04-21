@@ -15,9 +15,8 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Tag {
+type PostTag {
   id: Float!
-  title: String!
 }
 
 type Post {
@@ -28,7 +27,7 @@ type Post {
   content: String!
   thumbnail_img: String!
   user: User!
-  tags: [Tag!]
+  postTags: [PostTag!]
   category: Category!
 }
 
@@ -50,7 +49,6 @@ type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
   currentUser: User!
-  getPosts: [Post!]!
   getCategories: [Category!]!
   getCategory(id: Float!): Category!
 }
