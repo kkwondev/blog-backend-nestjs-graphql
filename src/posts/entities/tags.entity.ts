@@ -1,9 +1,7 @@
 import { ObjectType, Field, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
-import { PostTag } from './postTags.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { CoreEntity } from 'src/common/entities/core.entity';
-import { Post } from './posts.entity';
 
 @Entity('Tag')
 @ObjectType('Tag')

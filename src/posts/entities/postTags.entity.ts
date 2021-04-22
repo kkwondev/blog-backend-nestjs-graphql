@@ -2,11 +2,9 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  RelationId,
 } from 'typeorm';
 import { Post } from './posts.entity';
 import { Tag } from './tags.entity';
