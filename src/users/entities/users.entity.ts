@@ -17,7 +17,7 @@ export class User extends CoreEntity {
   @Field((type) => String)
   @Column()
   nickname: string;
-  @Field((type) => [Post], { nullable: true })
+
   @OneToMany((type) => Post, (post) => post.user)
   posts: Post[];
 }

@@ -4,8 +4,8 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 import { Post } from 'src/posts/entities/posts.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
-@InputType('CategoryInputType', { isAbstract: true })
 @Entity('Category')
+@InputType('CategoryInputType', { isAbstract: true })
 @ObjectType('Category')
 export class Category extends CoreEntity {
   @Field((type) => String)
@@ -13,7 +13,6 @@ export class Category extends CoreEntity {
   @IsString()
   name: string;
 
-  @Field((type) => [Post], { nullable: true })
   @OneToMany((type) => Post, (posts) => posts.category)
   posts: Post[];
 }
