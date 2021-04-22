@@ -89,4 +89,44 @@ export class PostsService {
     });
     return UserPosts;
   }
+
+  async deletePost(user: User, id: number) {
+    const post = await this.postRepository.findOne({ id });
+    console.log(post);
+    if (!post) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: '포스트가 존재하지 않습니다.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    if (user.id !== post.userId) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: '타인의 게시글을 삭제할수 없습니다.',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    const tags = await this.posttagsRepository.find({
+      where: {
+        postId: id,
+      },
+    });
+    console.log(tags);
+    if (tags) {
+      tags.map((tag) => this.deleteTag(tag.id));
+      await this.postRepository.delete({ id });
+    } else {
+      await this.postRepository.delete({ id });
+    }
+    return this.postRepository.find();
+  }
+
+  async deleteTag(id: number) {
+    return await this.posttagsRepository.delete({ id });
+  }
 }

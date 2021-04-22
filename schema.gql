@@ -68,6 +68,7 @@ type Mutation {
   createUser(user: InputUser!): User!
   login(user: InputAuth!): AuthResponseDto!
   createPost(post: CreatePostInput!): Post!
+  deletePost(id: Float!): [Post!]!
   createCategory(category: CreateCategoryInput!): Category!
 }
 

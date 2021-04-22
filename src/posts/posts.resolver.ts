@@ -6,7 +6,6 @@ import { User } from 'src/users/entities/users.entity';
 import { CreatePostInput } from './dtos/create-post.dto';
 import { Post } from './entities/posts.entity';
 import { PostTag } from './entities/postTags.entity';
-import { Tag } from './entities/tags.entity';
 import { PostsService } from './posts.service';
 
 @Resolver()
@@ -34,5 +33,11 @@ export class PostsResolver {
     @Args('post') post: CreatePostInput,
   ) {
     return await this.postsService.createPost(authUser, post);
+  }
+
+  @Mutation(() => [Post])
+  @UseGuards(AuthGuard)
+  async deletePost(@AuthUser() authUser: User, @Args('id') postId: number) {
+    return await this.postsService.deletePost(authUser, postId);
   }
 }
