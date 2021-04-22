@@ -38,13 +38,23 @@ export class PostsService {
         HttpStatus.NOT_FOUND,
       );
     }
-    post.tags.map(async (tag) => await this.createTag(tag));
-    const newPost = this.postRepository.create(post);
-    newPost.user = user;
-    newPost.category = category;
-    const savePost = await this.postRepository.save(newPost);
-    post.tags.map(async (tag) => await this.addTag(tag, savePost));
-    return savePost;
+    try {
+      const newPost = this.postRepository.create(post);
+      newPost.user = user;
+      newPost.category = category;
+      const savePost = await this.postRepository.save(newPost);
+      post.tags.map(async (tag) => await this.createTag(tag));
+      post.tags.map(async (tag) => await this.addTag(tag, savePost));
+      return savePost;
+    } catch (e) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: e,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async createTag(title: string) {
