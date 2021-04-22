@@ -1,12 +1,12 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { Category } from 'src/categories/entities/categories.entity';
 import { CoreEntity } from 'src/common/entities/core.entity';
 import { User } from 'src/users/entities/users.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { PostTag } from './postTags.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('Post')
+@InputType('PostInputType', { isAbstract: true })
 @ObjectType('Post')
 export class Post extends CoreEntity {
   @Field((type) => String)
@@ -19,18 +19,18 @@ export class Post extends CoreEntity {
   @IsString()
   content: string;
 
-  @Field((type) => String)
-  @Column()
-  @IsString()
+  @Field((type) => String, { nullable: true })
+  @Column({ nullable: true })
   thumbnail_img?: string;
+
+  @Field((type) => Number)
+  @Column('int', { primary: true, name: 'userId' })
+  userId: number;
 
   @Field((type) => User)
   @ManyToOne((type) => User, (user) => user.posts)
+  @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
   user: User;
-
-  @Field((type) => [PostTag], { nullable: true })
-  @OneToMany((type) => PostTag, (postTags) => postTags.post)
-  postTags: PostTag[];
 
   @Field((type) => Category)
   @ManyToOne((type) => Category, (category) => category.posts)

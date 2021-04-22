@@ -5,9 +5,10 @@ import { Post } from '../entities/posts.entity';
 export class CreatePostInput extends PickType(Post, [
   'title',
   'content',
-  'postTags',
   'thumbnail_img',
 ]) {
   @Field((type) => String)
   categoryName: string;
+  @Field((type) => [String])
+  tags: string[];
 }
