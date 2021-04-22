@@ -22,7 +22,7 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async createUser(@Args('user') user: InputUser) {
     return await this.userService.createUser(user);
   }
