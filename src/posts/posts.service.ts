@@ -29,6 +29,11 @@ export class PostsService {
     return find;
   }
 
+  /**
+   * 포스트 생성
+   * @param user
+   * @param post
+   */
   async createPost(user: User, post: CreatePostInput) {
     const category = await this.categoriesservice.findByName(post.categoryName);
     if (!category) {
@@ -76,6 +81,11 @@ export class PostsService {
     }
   }
 
+  /**
+   * 포스트 태그 연결
+   * @param tag
+   * @param post
+   */
   async addTag(tag: Tag, post: Post) {
     // const tag = await this.tagRepository.findOne({ title });
     console.log(tag);
@@ -85,12 +95,20 @@ export class PostsService {
     return await this.posttagsRepository.save(postTags);
   }
 
+  /**
+   * 포스트 태그 조회
+   * @param postId
+   */
   async getPostTags(postId: number) {
     const PostTags = await this.posttagsRepository.find({ postId });
     console.log(PostTags);
     return PostTags;
   }
 
+  /**
+   * 회원이 쓴 포스트 조회
+   * @param userId
+   */
   async getPostByUserId(userId: number) {
     const UserPosts = await this.postRepository.find({
       where: {
@@ -100,6 +118,11 @@ export class PostsService {
     return UserPosts;
   }
 
+  /**
+   * 포스트 삭제
+   * @param user
+   * @param postId
+   */
   async deletePost(user: User, { id }: DeletePostInput) {
     const post = await this.postRepository.findOne({ id });
     console.log(post);
@@ -126,7 +149,6 @@ export class PostsService {
         postId: id,
       },
     });
-    console.log(tags);
     if (tags) {
       tags.map((tag) => this.deleteTag(tag.id));
       await this.postRepository.delete({ id });
@@ -138,10 +160,18 @@ export class PostsService {
     };
   }
 
+  /**
+   * 태그 삭제
+   * @param id
+   */
   async deleteTag(id: number) {
     return await this.posttagsRepository.delete({ id });
   }
 
+  /**
+   * 카테고리 포스트 조회
+   * @param categoryId
+   */
   async getCategoryPost(categoryId: number) {
     return await this.postRepository.find({
       where: {
