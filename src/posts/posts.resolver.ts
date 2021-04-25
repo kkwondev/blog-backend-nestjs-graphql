@@ -15,6 +15,10 @@ import {
   DeletePostOutput,
 } from './interfaces/delete-post.dto';
 import { PostOutput } from './interfaces/post.dto';
+import {
+  UpdatePostInput,
+  UpdatePostOutput,
+} from './interfaces/update-post.dto';
 
 @Resolver()
 export class PostsResolver {
@@ -46,6 +50,16 @@ export class PostsResolver {
     @Args('post') post: CreatePostInput,
   ) {
     return await this.postsService.createPost(authUser, post);
+  }
+
+  @Mutation(() => UpdatePostOutput)
+  @UseGuards(AuthGuard)
+  async updatePost(
+    @AuthUser() authUser: User,
+    @Args('id') id: number,
+    @Args('post') post: UpdatePostInput,
+  ) {
+    return await this.postsService.updatePost(authUser, id, post);
   }
 
   @Mutation(() => DeletePostOutput)

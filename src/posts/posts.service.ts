@@ -8,7 +8,7 @@ import { Post } from './entities/posts.entity';
 import { PostTag } from './entities/postTags.entity';
 import { Tag } from './entities/tags.entity';
 import { DeletePostInput } from './interfaces/delete-post.dto';
-import { timeStamp } from 'console';
+import { UpdatePostInput } from './interfaces/update-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -89,6 +89,89 @@ export class PostsService {
     }
   }
 
+  /**
+   * 포스트 업데이트
+   * @param user
+   * @param id
+   * @param post
+   */
+
+  async updatePost(
+    user: User,
+    id: number,
+    { tags, categoryName }: UpdatePostInput,
+  ) {
+    const post = await this.postRepository.findOne({ id });
+    const category = await this.categoriesservice.findByName(categoryName);
+    if (!category) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: '존재하지 않는 카테고리입니다.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    if (!post) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: '포스트가 존재하지 않습니다.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    if (user.id !== post.userId) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: '타인의 게시글을 수정 할수 없습니다.',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    const prevTags = await this.posttagsRepository.find({
+      where: {
+        postId: id,
+      },
+    });
+    if (prevTags) {
+      prevTags.map((tag) => this.deleteTag(tag.id));
+      await this.postRepository.delete({ id });
+    } else {
+      await this.postRepository.delete({ id });
+    }
+    try {
+      const newPost = this.postRepository.create(post);
+      const slug_title = post.title.replace(/ /g, '-');
+      newPost.user = user;
+      newPost.category = category;
+      newPost.slug = slug_title;
+      const savePost = await this.postRepository.save(newPost);
+      const updateTags = await Promise.all(
+        tags.map((tag) => this.createTag(tag)),
+      );
+      updateTags.map((tag) => this.addTag(tag, savePost));
+
+      return {
+        success: true,
+        post: savePost,
+      };
+    } catch (e) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: e,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  /**
+   * 태그 추가
+   * @param title
+   */
   async createTag(title: string) {
     const tag = await this.tagRepository.findOne({ title });
     if (!tag) {

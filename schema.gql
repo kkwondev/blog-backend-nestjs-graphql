@@ -72,6 +72,12 @@ type PostOutput {
   post: Post
 }
 
+type UpdatePostOutput {
+  error: String
+  success: Boolean!
+  post: Post
+}
+
 type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
@@ -89,6 +95,7 @@ type Mutation {
   createUser(user: InputUser!): User!
   login(user: InputAuth!): AuthResponseDto!
   createPost(post: CreatePostInput!): CreatePostOutput!
+  updatePost(post: UpdatePostInput!, id: Float!): UpdatePostOutput!
   deletePost(postId: DeletePostInput!): DeletePostOutput!
   createCategory(category: CreateCategoryInput!): Category!
 }
@@ -110,6 +117,14 @@ input CreatePostInput {
   thumbnail_img: String
   categoryName: String!
   tags: [String!]!
+}
+
+input UpdatePostInput {
+  title: String!
+  content: String!
+  thumbnail_img: String
+  tags: [String!]!
+  categoryName: String!
 }
 
 input DeletePostInput {
