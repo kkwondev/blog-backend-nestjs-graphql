@@ -14,6 +14,7 @@ import {
   DeletePostInput,
   DeletePostOutput,
 } from './interfaces/delete-post.dto';
+import { PostOutput } from './interfaces/post.dto';
 
 @Resolver()
 export class PostsResolver {
@@ -23,6 +24,11 @@ export class PostsResolver {
   async getPosts() {
     return await this.postsService.getPosts();
   }
+  @Query(() => PostOutput)
+  async getPost(@Args('id') id: number) {
+    return await this.postsService.getPost(id);
+  }
+
   @Query(() => [PostTag])
   async getPostTags(@Args('id') postId: number) {
     return await this.postsService.getPostTags(postId);
