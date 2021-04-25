@@ -19,6 +19,7 @@ type Post {
   createdAt: DateTime!
   updatedAt: DateTime!
   title: String!
+  slug: String!
   content: String!
   thumbnail_img: String
   userId: Float!
@@ -65,11 +66,18 @@ type DeletePostOutput {
   success: Boolean!
 }
 
+type PostOutput {
+  error: String
+  success: Boolean!
+  post: Post
+}
+
 type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
   currentUser: User!
   getPosts: [Post!]!
+  getPost(id: Float!): PostOutput!
   getPostTags(id: Float!): [PostTag!]!
   getPostByUserId(id: Float!): [Post!]!
   getCategoryPost(id: Float!): [Post!]!

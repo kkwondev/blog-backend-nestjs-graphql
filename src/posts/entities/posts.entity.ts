@@ -17,6 +17,11 @@ export class Post extends CoreEntity {
   @Field((type) => String)
   @Column()
   @IsString()
+  slug: string;
+
+  @Field((type) => String)
+  @Column()
+  @IsString()
   content: string;
 
   @Field((type) => String, { nullable: true })

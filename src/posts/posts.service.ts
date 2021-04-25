@@ -29,6 +29,23 @@ export class PostsService {
     return find;
   }
 
+  async getPost(id: number) {
+    const post = await this.postRepository.findOne({ id });
+    if (!post) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: '존재하지 않는 포스트입니다..',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return {
+      success: true,
+      post: post,
+    };
+  }
+
   /**
    * 포스트 생성
    * @param user
@@ -47,8 +64,10 @@ export class PostsService {
     }
     try {
       const newPost = this.postRepository.create(post);
+      const slug_title = post.title.replace(/ /g, '-');
       newPost.user = user;
       newPost.category = category;
+      newPost.slug = slug_title;
       const savePost = await this.postRepository.save(newPost);
       const tags = await Promise.all(
         post.tags.map((tag) => this.createTag(tag)),
