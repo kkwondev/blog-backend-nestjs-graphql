@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PostsModule } from './posts/posts.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CommonModule } from './common/common.module';
+import { ImageModule } from './image/image.module';
 import * as config from '../ormconfig';
 
 @Module({
@@ -22,6 +23,7 @@ import * as config from '../ormconfig';
     PostsModule,
     CategoriesModule,
     CommonModule,
+    ImageModule,
   ],
 })
 export class AppModule {}
