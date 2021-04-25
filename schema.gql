@@ -22,6 +22,7 @@ type Post {
   content: String!
   thumbnail_img: String
   userId: Float!
+  categoryId: Float!
   user: User!
   category: Category!
 }
@@ -71,6 +72,7 @@ type Query {
   getPosts: [Post!]!
   getPostTags(id: Float!): [PostTag!]!
   getPostByUserId(id: Float!): [Post!]!
+  getCategoryPost(id: Float!): [Post!]!
   getCategories: [Category!]!
   getCategory(id: Float!): Category!
 }

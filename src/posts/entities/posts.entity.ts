@@ -27,6 +27,10 @@ export class Post extends CoreEntity {
   @Column('int', { primary: true, name: 'userId' })
   userId: number;
 
+  @Field((type) => Number)
+  @Column('int', { primary: true, name: 'categoryId' })
+  categoryId: number;
+
   @Field((type) => User)
   @ManyToOne((type) => User, (user) => user.posts)
   @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
@@ -34,5 +38,6 @@ export class Post extends CoreEntity {
 
   @Field((type) => Category)
   @ManyToOne((type) => Category, (category) => category.posts)
+  @JoinColumn([{ name: 'categoryId', referencedColumnName: 'id' }])
   category: Category;
 }

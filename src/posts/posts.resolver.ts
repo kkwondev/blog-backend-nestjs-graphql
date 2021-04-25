@@ -50,4 +50,9 @@ export class PostsResolver {
   ) {
     return await this.postsService.deletePost(authUser, deletePostInput);
   }
+
+  @Query(() => [Post])
+  async getCategoryPost(@Args('id') categoryId: number) {
+    return await this.postsService.getCategoryPost(categoryId);
+  }
 }

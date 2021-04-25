@@ -8,6 +8,7 @@ import { Post } from './entities/posts.entity';
 import { PostTag } from './entities/postTags.entity';
 import { Tag } from './entities/tags.entity';
 import { DeletePostInput } from './interfaces/delete-post.dto';
+import { timeStamp } from 'console';
 
 @Injectable()
 export class PostsService {
@@ -44,8 +45,11 @@ export class PostsService {
       newPost.user = user;
       newPost.category = category;
       const savePost = await this.postRepository.save(newPost);
-      post.tags.map(async (tag) => await this.createTag(tag));
-      post.tags.map(async (tag) => await this.addTag(tag, savePost));
+      const tags = await Promise.all(
+        post.tags.map((tag) => this.createTag(tag)),
+      );
+      tags.map((tag) => this.addTag(tag, savePost));
+
       return {
         success: true,
         post: savePost,
@@ -63,16 +67,18 @@ export class PostsService {
 
   async createTag(title: string) {
     const tag = await this.tagRepository.findOne({ title });
-    if (tag) {
+    if (!tag) {
+      const freshTag = new Tag();
+      freshTag.title = title;
+      return await this.tagRepository.save(freshTag);
+    } else {
       return tag;
     }
-    const freshTag = new Tag();
-    freshTag.title = title;
-    await this.tagRepository.save(freshTag);
   }
 
-  async addTag(title: string, post: Post) {
-    const tag = await this.tagRepository.findOne({ title });
+  async addTag(tag: Tag, post: Post) {
+    // const tag = await this.tagRepository.findOne({ title });
+    console.log(tag);
     const postTags = this.posttagsRepository.create(new PostTag());
     postTags.tags = tag;
     postTags.post = post;
@@ -110,7 +116,7 @@ export class PostsService {
       throw new HttpException(
         {
           status: HttpStatus.UNAUTHORIZED,
-          error: '타인의 게시글을 삭제할수 없습니다.',
+          error: '타인의 게시글을 삭제 할수 없습니다.',
         },
         HttpStatus.UNAUTHORIZED,
       );
@@ -134,5 +140,13 @@ export class PostsService {
 
   async deleteTag(id: number) {
     return await this.posttagsRepository.delete({ id });
+  }
+
+  async getCategoryPost(categoryId: number) {
+    return await this.postRepository.find({
+      where: {
+        categoryId: categoryId,
+      },
+    });
   }
 }
