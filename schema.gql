@@ -53,6 +53,17 @@ type PostTag {
   tags: Tag
 }
 
+type CreatePostOutput {
+  error: String
+  success: Boolean!
+  post: Post
+}
+
+type DeletePostOutput {
+  error: String
+  success: Boolean!
+}
+
 type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
@@ -67,8 +78,8 @@ type Query {
 type Mutation {
   createUser(user: InputUser!): User!
   login(user: InputAuth!): AuthResponseDto!
-  createPost(post: CreatePostInput!): Post!
-  deletePost(id: Float!): [Post!]!
+  createPost(post: CreatePostInput!): CreatePostOutput!
+  deletePost(postId: DeletePostInput!): DeletePostOutput!
   createCategory(category: CreateCategoryInput!): Category!
 }
 
@@ -89,6 +100,10 @@ input CreatePostInput {
   thumbnail_img: String
   categoryName: String!
   tags: [String!]!
+}
+
+input DeletePostInput {
+  id: Float!
 }
 
 input CreateCategoryInput {

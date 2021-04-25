@@ -3,10 +3,17 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/decorators/auth-user.decorator';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { User } from 'src/users/entities/users.entity';
-import { CreatePostInput } from './dtos/create-post.dto';
+import {
+  CreatePostInput,
+  CreatePostOutput,
+} from './interfaces/create-post.dto';
 import { Post } from './entities/posts.entity';
 import { PostTag } from './entities/postTags.entity';
 import { PostsService } from './posts.service';
+import {
+  DeletePostInput,
+  DeletePostOutput,
+} from './interfaces/delete-post.dto';
 
 @Resolver()
 export class PostsResolver {
@@ -26,7 +33,7 @@ export class PostsResolver {
     return await this.postsService.getPostByUserId(userId);
   }
 
-  @Mutation(() => Post)
+  @Mutation(() => CreatePostOutput)
   @UseGuards(AuthGuard)
   async createPost(
     @AuthUser() authUser: User,
@@ -35,9 +42,12 @@ export class PostsResolver {
     return await this.postsService.createPost(authUser, post);
   }
 
-  @Mutation(() => [Post])
+  @Mutation(() => DeletePostOutput)
   @UseGuards(AuthGuard)
-  async deletePost(@AuthUser() authUser: User, @Args('id') postId: number) {
-    return await this.postsService.deletePost(authUser, postId);
+  async deletePost(
+    @AuthUser() authUser: User,
+    @Args('postId') deletePostInput: DeletePostInput,
+  ) {
+    return await this.postsService.deletePost(authUser, deletePostInput);
   }
 }

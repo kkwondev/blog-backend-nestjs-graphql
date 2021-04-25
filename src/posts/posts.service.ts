@@ -3,10 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CategoriesService } from 'src/categories/categories.service';
 import { User } from 'src/users/entities/users.entity';
 import { Repository } from 'typeorm';
-import { CreatePostInput } from './dtos/create-post.dto';
+import { CreatePostInput } from './interfaces/create-post.dto';
 import { Post } from './entities/posts.entity';
 import { PostTag } from './entities/postTags.entity';
 import { Tag } from './entities/tags.entity';
+import { DeletePostInput } from './interfaces/delete-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -45,7 +46,10 @@ export class PostsService {
       const savePost = await this.postRepository.save(newPost);
       post.tags.map(async (tag) => await this.createTag(tag));
       post.tags.map(async (tag) => await this.addTag(tag, savePost));
-      return savePost;
+      return {
+        success: true,
+        post: savePost,
+      };
     } catch (e) {
       throw new HttpException(
         {
@@ -90,7 +94,7 @@ export class PostsService {
     return UserPosts;
   }
 
-  async deletePost(user: User, id: number) {
+  async deletePost(user: User, { id }: DeletePostInput) {
     const post = await this.postRepository.findOne({ id });
     console.log(post);
     if (!post) {
@@ -123,7 +127,9 @@ export class PostsService {
     } else {
       await this.postRepository.delete({ id });
     }
-    return this.postRepository.find();
+    return {
+      success: true,
+    };
   }
 
   async deleteTag(id: number) {
