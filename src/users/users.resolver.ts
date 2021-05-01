@@ -1,8 +1,11 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { AuthUser } from 'src/auth/decorators/auth-user.decorator';
+import { GoogleUser } from 'src/auth/decorators/google.decorator';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { GoogleGuard } from 'src/auth/guards/google.guard';
 import { User } from './entities/users.entity';
+import { GoogleCheckOutput } from './interfaces/google-user.dto';
 import { InputUser } from './interfaces/user.input';
 import { UsersService } from './users.service';
 @Resolver('User')

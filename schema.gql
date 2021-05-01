@@ -83,6 +83,7 @@ type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
   currentUser: User!
+  googleLogin: AuthResponseDto!
   getPosts: [Post!]!
   getPost(id: Float!): PostOutput!
   getPostTags(id: Float!): [PostTag!]!

@@ -4,11 +4,15 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './interfaces/create-user.dto';
 import { User } from './entities/users.entity';
 import * as bcrypt from 'bcrypt';
+import { SocialAccount } from './entities/socialAccount.entity';
+import { GoogleCheckOutput } from './interfaces/google-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(SocialAccount)
+    private readonly socialRepository: Repository<SocialAccount>,
   ) {}
 
   /**
@@ -44,7 +48,7 @@ export class UsersService {
   }
 
   /**
-   * 유저 생성
+   * 유저 생성 (일반 유저)
    * @param user
    * @returns User
    */
@@ -61,5 +65,46 @@ export class UsersService {
       password: hashPassword,
       nickname: user.nickname,
     });
+  }
+
+  /**
+   * validate Google Account
+   * @param googleUser
+   * @returns User
+   */
+
+  async validateGoogleAccount(googleUser: GoogleCheckOutput) {
+    const googleAccout = await this.socialRepository.findOne({
+      where: {
+        social_id: googleUser.socialId,
+      },
+    });
+    console.log(googleAccout);
+    if (googleAccout) {
+      return await this.userRepository.findOne({
+        where: {
+          id: googleAccout.user_id,
+        },
+      });
+    } else {
+      // const newUser = await this.userRepository.save({
+      //   email: googleUser.email,
+      //   nickname: googleUser.displayName,
+      //   photo_url: googleUser.photo,
+      // });
+      // const sosialGoogle = this.socialRepository.create(new SocialAccount());
+      // sosialGoogle.user = newUser;
+      // sosialGoogle.provider = 'google';
+      // sosialGoogle.social_id = googleUser.socialId;
+      // await this.socialRepository.save(sosialGoogle);
+      // return newUser;
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: '현재 회원가입을 할수 없는 기간입니다.',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
   }
 }

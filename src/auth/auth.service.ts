@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { GoogleCheckOutput } from 'src/users/interfaces/google-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthResponseDto } from './interfaces/auth.dto';
 import { InputAuth } from './interfaces/auth.input';
@@ -49,5 +50,19 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async googleLogin(googleUser: GoogleCheckOutput) {
+    const socialAccount = await this.usersService.validateGoogleAccount(
+      googleUser,
+    );
+    try {
+      const payload = { email: socialAccount.email, id: socialAccount.id };
+      return {
+        access_token: this.jwtService.sign(payload),
+      };
+    } catch (e) {
+      return e;
+    }
   }
 }

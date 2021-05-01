@@ -11,7 +11,7 @@ import { User } from './users.entity';
 @Entity({
   name: 'social_accounts',
 })
-@Index(['provider', 'social_id'])
+@Index(['provider', 'social_id', 'user_id'])
 export class SocialAccount {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -21,6 +21,9 @@ export class SocialAccount {
 
   @Column({ length: 255 })
   social_id!: string;
+
+  @Column('int', { primary: true, name: 'user_id' })
+  user_id: number;
 
   @OneToOne((type) => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
