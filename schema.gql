@@ -33,7 +33,8 @@ type User {
   createdAt: DateTime!
   updatedAt: DateTime!
   email: String!
-  password: String!
+  password: String
+  photo_url: String
   nickname: String!
 }
 

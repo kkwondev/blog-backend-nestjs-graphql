@@ -5,7 +5,9 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 import { User } from 'src/users/entities/users.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
-@Entity('Post')
+@Entity({
+  name: 'posts',
+})
 @InputType('PostInputType', { isAbstract: true })
 @ObjectType('Post')
 export class Post extends CoreEntity {

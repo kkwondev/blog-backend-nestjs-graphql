@@ -9,7 +9,7 @@ import {
 import { Post } from './posts.entity';
 import { Tag } from './tags.entity';
 
-@Entity('post_Tags')
+@Entity('post_tags')
 @ObjectType('PostTag')
 export class PostTag {
   @PrimaryGeneratedColumn()

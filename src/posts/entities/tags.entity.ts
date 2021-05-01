@@ -3,7 +3,9 @@ import { IsString } from 'class-validator';
 import { Column, Entity } from 'typeorm';
 import { CoreEntity } from 'src/common/entities/core.entity';
 
-@Entity('Tag')
+@Entity({
+  name: 'tags',
+})
 @ObjectType('Tag')
 @InputType('TagInputType', { isAbstract: true })
 export class Tag extends CoreEntity {
