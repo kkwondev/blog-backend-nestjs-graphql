@@ -49,6 +49,7 @@ export class AuthService {
     const payload = { email: validateUser.email, id: validateUser.id };
     return {
       access_token: this.jwtService.sign(payload),
+      user: validateUser,
     };
   }
 
@@ -60,6 +61,7 @@ export class AuthService {
       const payload = { email: socialAccount.email, id: socialAccount.id };
       return {
         access_token: this.jwtService.sign(payload),
+        user: socialAccount,
       };
     } catch (e) {
       return e;
