@@ -64,7 +64,9 @@ export class PostsService {
     }
     try {
       const newPost = this.postRepository.create(post);
-      const slug_title = post.title.replace(/ /g, '-');
+      const reqExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+      const specialCharacters = post.title.replace(reqExp, '');
+      const slug_title = specialCharacters.replace(/ /g, '-');
       newPost.user = user;
       newPost.category = category;
       newPost.slug = slug_title;
