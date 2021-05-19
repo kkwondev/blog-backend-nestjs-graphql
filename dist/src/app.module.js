@@ -17,6 +17,7 @@ const posts_module_1 = require("./posts/posts.module");
 const categories_module_1 = require("./categories/categories.module");
 const common_module_1 = require("./common/common.module");
 const image_module_1 = require("./image/image.module");
+const app_controller_1 = require("./app.controller");
 const config = require("../ormconfig");
 let AppModule = class AppModule {
 };
@@ -36,6 +37,7 @@ AppModule = __decorate([
             common_module_1.CommonModule,
             image_module_1.ImageModule,
         ],
+        controllers: [app_controller_1.AppController],
     })
 ], AppModule);
 exports.AppModule = AppModule;

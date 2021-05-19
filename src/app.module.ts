@@ -8,6 +8,7 @@ import { PostsModule } from './posts/posts.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CommonModule } from './common/common.module';
 import { ImageModule } from './image/image.module';
+import { AppController } from './app.controller';
 import * as config from '../ormconfig';
 
 @Module({
@@ -25,5 +26,6 @@ import * as config from '../ormconfig';
     CommonModule,
     ImageModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

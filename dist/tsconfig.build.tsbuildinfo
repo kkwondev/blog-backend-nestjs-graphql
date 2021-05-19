@@ -2841,6 +2841,11 @@
         "signature": "95b5a3078fdc51508d5d9cde59a1dd9525b53fd42dc12265a55261fd415d3274",
         "affectsGlobalScope": false
       },
+      "../src/app.controller.ts": {
+        "version": "b40b6a10d8d414c1de68176d94b753be9788301a33e8ccf7bea32f07beb8e1d0",
+        "signature": "003dd2cabfc26b6e715b848038379821268b6899b4784d6be613fd7aa8fdf85e",
+        "affectsGlobalScope": false
+      },
       "../node_modules/@nestjs/graphql/dist/decorators/args-type.decorator.d.ts": {
         "version": "7371aa9dfaadc42d481fc4b65d40cc6e0ca38d3da1632db9dcc558011b68557c",
         "signature": "7371aa9dfaadc42d481fc4b65d40cc6e0ca38d3da1632db9dcc558011b68557c",
@@ -11326,7 +11331,7 @@
         "affectsGlobalScope": false
       },
       "../src/app.module.ts": {
-        "version": "b466bc80dd045a9574e2daa8c9022cd5a51f1e3a8219bdfc83adb290e8e916f9",
+        "version": "bf455ce87fbda625f7fe5cd45aa5e3fa07582d65bf72ca333b50f60284a56f5d",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644",
         "affectsGlobalScope": false
       },
@@ -22680,12 +22685,16 @@
       "../ormconfig.ts": [
         "../node_modules/typeorm/index.d.ts"
       ],
+      "../src/app.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts"
+      ],
       "../src/app.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/config/index.d.ts",
         "../node_modules/@nestjs/graphql/index.d.ts",
         "../node_modules/@nestjs/typeorm/index.d.ts",
         "../ormconfig.ts",
+        "../src/app.controller.ts",
         "../src/auth/auth.module.ts",
         "../src/categories/categories.module.ts",
         "../src/common/common.module.ts",
