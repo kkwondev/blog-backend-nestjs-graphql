@@ -18,6 +18,14 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     name: build&deploy
+    env:
+      DBNAME: ${{ secrets.DBNAME }}
+      DB_ENDPOINT: ${{ secrets.DB_ENDPOINT }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
