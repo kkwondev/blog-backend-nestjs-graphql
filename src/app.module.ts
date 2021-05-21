@@ -9,12 +9,12 @@ import { CategoriesModule } from './categories/categories.module';
 import { CommonModule } from './common/common.module';
 import { ImageModule } from './image/image.module';
 import { AppController } from './app.controller';
-import * as config from '../ormconfig';
+import connectionOptions from '../ormconfig';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(config),
+    TypeOrmModule.forRoot(connectionOptions),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       context: ({ req }) => ({ req }),

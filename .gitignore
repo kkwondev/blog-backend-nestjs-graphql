@@ -33,7 +33,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-ormconfig.ts
 .env
 /migration
 ormconfig.json
