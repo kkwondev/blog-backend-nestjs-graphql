@@ -56,4 +56,5 @@ jobs:
           key: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/klog.backend
-            npm run start:prod
+            sudo pm2 kill
+            sudo npm run start:prod
