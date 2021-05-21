@@ -47,4 +47,12 @@ jobs:
           local_path: './dist/*'
           remote_path: '/home/ubuntu/klog.backend/dist'
           args: '-o ConnectTimeout=5'
-          script: sudo npm run start:prod
+
+      - name: deploy to production server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PRODUCTION_SERVER_IP }}
+          username: ${{ secrets.PRODUCTION_SERVER_USER_NAME}}
+          key: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
+          script: cd '/home/ubuntu/klog.backend
+            sudo npm run start:prod
