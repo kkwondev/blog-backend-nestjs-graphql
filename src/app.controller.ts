@@ -4,6 +4,8 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get('/')
   app() {
-    return 'Hello kkwon blog api';
+    return {
+      message: 'hello world',
+    };
   }
 }
