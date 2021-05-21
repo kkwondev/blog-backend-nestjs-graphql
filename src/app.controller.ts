@@ -6,6 +6,7 @@ export class AppController {
   app() {
     return {
       message: 'hello world',
+      status: 200,
     };
   }
 }
