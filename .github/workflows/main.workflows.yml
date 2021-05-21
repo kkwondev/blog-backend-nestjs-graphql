@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: deploy file to server
+      - name: deploy file to server and reboot
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
           username: '${{ secrets.PRODUCTION_SERVER_USER_NAME}}'
@@ -47,9 +47,4 @@ jobs:
           local_path: './dist/*'
           remote_path: '/home/ubuntu/klog.backend/dist'
           args: '-o ConnectTimeout=5'
-
-      - name: server down
-        run: sudo pm2 kill
-
-      - name: server start
-        run: sudo yarn start:prod
+          script: sudo npm run start:prod
