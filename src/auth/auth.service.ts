@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { google } from 'googleapis';
 import { GoogleCheckOutput } from 'src/users/interfaces/google-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthResponseDto } from './interfaces/auth.dto';
@@ -65,6 +66,33 @@ export class AuthService {
       };
     } catch (e) {
       return e;
+    }
+  }
+
+  async validateGoogle(access_token: string) {
+    try {
+      const { data } = await google.people('v1').people.get({
+        access_token: access_token,
+        resourceName: 'people/me',
+        personFields: 'names,emailAddresses,photos',
+      });
+
+      const profile = {
+        socialId: data.resourceName?.replace('people/', '') ?? '',
+        email: data.emailAddresses?.[0].value ?? '',
+        photo: data.photos?.[0].url ?? null,
+        displayName: data.names?.[0].displayName?.split(' (')[0] ?? '',
+      };
+      return this.googleLogin(profile);
+    } catch (e) {
+      throw new HttpException(
+        {
+          status: 401,
+          error: 'Google Login Error',
+          message: 'Failed to retrieve google profile',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

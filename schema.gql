@@ -84,7 +84,6 @@ type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
   currentUser: User!
-  googleLogin: AuthResponseDto!
   getPosts: [Post!]!
   getPost(id: Float!): PostOutput!
   getPostTags(id: Float!): [PostTag!]!
@@ -97,6 +96,7 @@ type Query {
 type Mutation {
   createUser(user: InputUser!): User!
   login(user: InputAuth!): AuthResponseDto!
+  google(access_token: String!): AuthResponseDto!
   createPost(post: CreatePostInput!): CreatePostOutput!
   updatePost(post: UpdatePostInput!, id: Float!): UpdatePostOutput!
   deletePost(postId: DeletePostInput!): DeletePostOutput!

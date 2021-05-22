@@ -16,9 +16,14 @@ export class AuthResolver {
     return this.authService.login(user);
   }
 
-  @Query(() => AuthResponseDto)
-  @UseGuards(GoogleGuard)
-  async googleLogin(@GoogleUser() googleUser: GoogleCheckOutput) {
-    return this.authService.googleLogin(googleUser);
+  // @Query(() => AuthResponseDto)
+  // @UseGuards(GoogleGuard)
+  // async googleLogin(@GoogleUser() googleUser: GoogleCheckOutput) {
+  //   return this.authService.googleLogin(googleUser);
+  // }
+
+  @Mutation(() => AuthResponseDto)
+  async google(@Args('access_token') access_token: string) {
+    return this.authService.validateGoogle(access_token);
   }
 }
