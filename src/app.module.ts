@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { ImageModule } from './image/image.module';
 import { AppController } from './app.controller';
 import connectionOptions from '../ormconfig';
+import { GraphQLError } from 'graphql';
 
 @Module({
   imports: [
@@ -18,6 +19,14 @@ import connectionOptions from '../ormconfig';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       context: ({ req }) => ({ req }),
+      debug: false,
+      formatError: (error: GraphQLError) => {
+        const graphQLFormattedError = {
+          message: error.extensions.exception.response.error || error.message,
+          status: error.extensions.exception.response.status,
+        };
+        return graphQLFormattedError;
+      },
     }),
     UsersModule,
     AuthModule,
