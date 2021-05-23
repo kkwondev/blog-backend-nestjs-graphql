@@ -19,14 +19,15 @@ import {
   UpdatePostInput,
   UpdatePostOutput,
 } from './interfaces/update-post.dto';
+import { PostsOutput } from './interfaces/posts.dto';
 
 @Resolver()
 export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
 
-  @Query(() => [Post])
-  async getPosts() {
-    return await this.postsService.getPosts();
+  @Query(() => PostsOutput)
+  async getPosts(@Args('lastId') lastId: number) {
+    return await this.postsService.getPosts(lastId);
   }
   @Query(() => PostOutput)
   async getPost(@Args('id') id: number) {

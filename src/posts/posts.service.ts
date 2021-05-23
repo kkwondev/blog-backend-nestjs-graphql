@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoriesService } from 'src/categories/categories.service';
 import { User } from 'src/users/entities/users.entity';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { CreatePostInput } from './interfaces/create-post.dto';
 import { Post } from './entities/posts.entity';
 import { PostTag } from './entities/postTags.entity';
@@ -24,13 +24,37 @@ export class PostsService {
    * 전체 포스토 조회
    * @returns post[]
    */
-  async getPosts() {
-    const find = await this.postRepository.find();
-    return find;
+  async getPosts(lastId: number) {
+    const find = await this.postRepository.find({
+      where: {
+        id: LessThan(lastId),
+      },
+      take: 10,
+      relations: ['user', 'category'],
+      order: {
+        id: 'DESC',
+      },
+    });
+    if (find.length < 10) {
+      return {
+        success: true,
+        post: find,
+        hasMorePost: false,
+      };
+    } else {
+      return {
+        success: true,
+        post: find,
+        hasMorePost: true,
+      };
+    }
   }
 
   async getPost(id: number) {
-    const post = await this.postRepository.findOne({ id });
+    const post = await this.postRepository.findOne({
+      where: { id: id },
+      relations: ['user', 'category'],
+    });
     if (!post) {
       throw new HttpException(
         {

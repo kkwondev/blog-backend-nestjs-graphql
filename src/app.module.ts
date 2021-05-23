@@ -19,14 +19,14 @@ import { GraphQLError } from 'graphql';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       context: ({ req }) => ({ req }),
-      debug: false,
-      formatError: (error: GraphQLError) => {
-        const graphQLFormattedError = {
-          message: error.extensions.exception.response.error || error.message,
-          status: error.extensions.exception.response.status,
-        };
-        return graphQLFormattedError;
-      },
+      // debug: false,
+      // formatError: (error: GraphQLError) => {
+      //   const graphQLFormattedError = {
+      //     message: error.extensions.exception.response.error || error.message,
+      //     status: error.extensions.exception.response.status,
+      //   };
+      //   return graphQLFormattedError;
+      // },
     }),
     UsersModule,
     AuthModule,
