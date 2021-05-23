@@ -125,7 +125,7 @@ export class PostsService {
   async updatePost(
     user: User,
     id: number,
-    { tags, categoryName }: UpdatePostInput,
+    { tags, categoryName, title, content, thumbnail_img }: UpdatePostInput,
   ) {
     const post = await this.postRepository.findOne({ id });
     const category = await this.categoriesservice.findByName(categoryName);
@@ -163,17 +163,20 @@ export class PostsService {
     });
     if (prevTags) {
       prevTags.map((tag) => this.deleteTag(tag.id));
-      await this.postRepository.delete({ id });
+      // await this.postRepository.delete({ id });
     } else {
-      await this.postRepository.delete({ id });
+      // await this.postRepository.delete({ id });
     }
     try {
-      const newPost = this.postRepository.create(post);
+      // const newPost = this.postRepository.create(post);
+      post.title = title;
       const slug_title = post.title.replace(/ /g, '-');
-      newPost.user = user;
-      newPost.category = category;
-      newPost.slug = slug_title;
-      const savePost = await this.postRepository.save(newPost);
+      post.content = content;
+      post.thumbnail_img = thumbnail_img;
+      post.user = user;
+      post.category = category;
+      post.slug = slug_title;
+      const savePost = await this.postRepository.save(post);
       const updateTags = await Promise.all(
         tags.map((tag) => this.createTag(tag)),
       );
