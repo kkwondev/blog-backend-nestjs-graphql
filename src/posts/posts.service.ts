@@ -34,7 +34,9 @@ export class PostsService {
         },
       });
       return {
+        success: true,
         post: post,
+        hasMorePost: true,
       };
     } else {
       const find = await this.postRepository.find({
@@ -47,7 +49,8 @@ export class PostsService {
           id: 'DESC',
         },
       });
-      if (find.length < 10) {
+      console.log(find[9]);
+      if (find.length < 10 || find[0].id === 10) {
         return {
           success: true,
           post: find,
