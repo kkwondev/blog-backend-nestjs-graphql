@@ -91,7 +91,7 @@ type Query {
   getUsers: [User!]!
   getUser(id: Float!): User!
   currentUser: User!
-  getPosts(lastId: Float!): PostsOutput!
+  getPosts(lastId: Float): PostsOutput!
   getPost(id: Float!): PostOutput!
   getPostTags(id: Float!): [PostTag!]!
   getPostByUserId(id: Float!): [Post!]!

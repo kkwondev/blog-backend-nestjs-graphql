@@ -26,7 +26,7 @@ export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
 
   @Query(() => PostsOutput)
-  async getPosts(@Args('lastId') lastId: number) {
+  async getPosts(@Args('lastId', { nullable: true }) lastId: number) {
     return await this.postsService.getPosts(lastId);
   }
   @Query(() => PostOutput)

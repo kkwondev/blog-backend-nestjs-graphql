@@ -25,28 +25,41 @@ export class PostsService {
    * @returns post[]
    */
   async getPosts(lastId: number) {
-    const find = await this.postRepository.find({
-      where: {
-        id: LessThan(lastId),
-      },
-      take: 10,
-      relations: ['user', 'category'],
-      order: {
-        id: 'DESC',
-      },
-    });
-    if (find.length < 10) {
+    if (!lastId) {
+      const post = await this.postRepository.find({
+        take: 10,
+        relations: ['user', 'category'],
+        order: {
+          id: 'DESC',
+        },
+      });
       return {
-        success: true,
-        post: find,
-        hasMorePost: false,
+        post: post,
       };
     } else {
-      return {
-        success: true,
-        post: find,
-        hasMorePost: true,
-      };
+      const find = await this.postRepository.find({
+        where: {
+          id: LessThan(lastId),
+        },
+        take: 10,
+        relations: ['user', 'category'],
+        order: {
+          id: 'DESC',
+        },
+      });
+      if (find.length < 10) {
+        return {
+          success: true,
+          post: find,
+          hasMorePost: false,
+        };
+      } else {
+        return {
+          success: true,
+          post: find,
+          hasMorePost: true,
+        };
+      }
     }
   }
 
