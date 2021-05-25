@@ -66,9 +66,9 @@ export class PostsService {
     }
   }
 
-  async getPost(id: number) {
+  async getPost(url_slug: string) {
     const post = await this.postRepository.findOne({
-      where: { id: id },
+      where: { slug: url_slug },
       relations: ['user', 'category'],
     });
     if (!post) {

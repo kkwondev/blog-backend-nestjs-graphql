@@ -29,9 +29,14 @@ export class PostsResolver {
   async getPosts(@Args('lastId', { nullable: true }) lastId: number) {
     return await this.postsService.getPosts(lastId);
   }
+  // @Query(() => PostOutput)
+  // async getPost(@Args('id') id: number) {
+  //   return await this.postsService.getPost(id);
+  // }
+
   @Query(() => PostOutput)
-  async getPost(@Args('id') id: number) {
-    return await this.postsService.getPost(id);
+  async readPost(@Args('url_slug') url_slug: string) {
+    return await this.postsService.getPost(url_slug);
   }
 
   @Query(() => [PostTag])
