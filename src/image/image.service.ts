@@ -29,13 +29,14 @@ export class ImageService {
             eroor: `Failed to upload image file: ${error}`,
           });
         }
+        // console.log(req);
         if (!req.files[0]) {
           return res.status(404).json({
             status: HttpStatus.NOT_FOUND,
             eroor: 'Not upload file',
           });
         }
-        console.log(req.files);
+        // console.log(req.files);
         return res.status(201).json({
           status: HttpStatus.CREATED,
           file: req.files[0].location,
@@ -50,13 +51,14 @@ export class ImageService {
     }
   }
   upload = multer({
-    fileFilter: function fileFilter(req, file, cb) {
-      if (file.mimetype.substring(0, 'image'.length) == 'image') {
-        cb(null, true);
-      } else {
-        cb(null, false);
-      }
-    },
+    // fileFilter: function fileFilter(req, file, cb) {
+    //   console.log(file);
+    //   if (file.mimetype.substring(0, 'image'.length) == 'image') {
+    //     cb(null, true);
+    //   } else {
+    //     cb(null, false);
+    //   }
+    // },
     storage: multerS3({
       s3: s3,
       bucket: AWS_S3_BUCKET_NAME,
