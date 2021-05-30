@@ -107,9 +107,21 @@ export class PostsService {
       const reqExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
       const specialCharacters = post.title.replace(reqExp, '');
       const slug_title = specialCharacters.replace(/ /g, '-');
-      newPost.user = user;
-      newPost.category = category;
-      newPost.slug = slug_title;
+      const findSlug = await this.postRepository.findOne({
+        where: {
+          slug: slug_title,
+        },
+      });
+      if (!findSlug) {
+        newPost.user = user;
+        newPost.category = category;
+        newPost.slug = slug_title;
+      } else {
+        newPost.user = user;
+        newPost.category = category;
+        newPost.slug =
+          slug_title + '-' + Math.random().toString(36).substr(2, 11);
+      }
       const savePost = await this.postRepository.save(newPost);
       const tags = await Promise.all(
         post.tags.map((tag) => this.createTag(tag)),
