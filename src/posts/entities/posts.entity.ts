@@ -22,7 +22,7 @@ export class Post extends CoreEntity {
   slug: string;
 
   @Field((type) => String)
-  @Column()
+  @Column('longtext')
   @IsString()
   content: string;
 
