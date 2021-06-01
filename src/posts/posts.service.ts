@@ -49,7 +49,6 @@ export class PostsService {
           id: 'DESC',
         },
       });
-      console.log(find[9]);
       if (find.length < 10 || find[0].id === 10) {
         return {
           success: true,
@@ -331,11 +330,55 @@ export class PostsService {
    * 카테고리 포스트 조회
    * @param categoryId
    */
-  async getCategoryPost(categoryId: number) {
-    return await this.postRepository.find({
+  async getCategoryPost(name: string, lastId: number) {
+    const category = await this.categoriesservice.findByName(name);
+    console.log(category);
+    if (lastId) {
+      const post = await this.postRepository.find({
+        where: {
+          id: LessThan(lastId),
+          categoryId: category.id,
+        },
+        take: 10,
+        relations: ['user', 'category'],
+        order: {
+          id: 'DESC',
+        },
+      });
+      console.log(post);
+      if (post.length < 10) {
+        return {
+          hasMorePost: false,
+          post: post,
+        };
+      } else {
+        return {
+          hasMorePost: true,
+          post: post,
+        };
+      }
+    }
+    const post = await this.postRepository.find({
       where: {
-        categoryId: categoryId,
+        categoryId: category.id,
+      },
+      take: 10,
+      relations: ['user', 'category'],
+      order: {
+        id: 'DESC',
       },
     });
+    console.log(post);
+    if (post.length > 10) {
+      return {
+        hasMorePost: false,
+        post: post,
+      };
+    } else {
+      return {
+        hasMorePost: true,
+        post: post,
+      };
+    }
   }
 }

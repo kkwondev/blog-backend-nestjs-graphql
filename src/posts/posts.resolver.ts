@@ -77,8 +77,11 @@ export class PostsResolver {
     return await this.postsService.deletePost(authUser, deletePostInput);
   }
 
-  @Query(() => [Post])
-  async getCategoryPost(@Args('id') categoryId: number) {
-    return await this.postsService.getCategoryPost(categoryId);
+  @Query(() => PostsOutput)
+  async getCategoryPost(
+    @Args('name') name: string,
+    @Args('lastId', { nullable: true }) lastId: number,
+  ) {
+    return await this.postsService.getCategoryPost(name, lastId);
   }
 }
