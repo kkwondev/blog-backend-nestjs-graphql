@@ -49,7 +49,7 @@ export class PostsResolver {
     return await this.postsService.getPostByUserId(userId);
   }
 
-  @Mutation(() => CreatePostOutput)
+  @Mutation(() => PostOutput)
   @UseGuards(AuthGuard)
   async createPost(
     @AuthUser() authUser: User,
@@ -70,11 +70,8 @@ export class PostsResolver {
 
   @Mutation(() => DeletePostOutput)
   @UseGuards(AuthGuard)
-  async deletePost(
-    @AuthUser() authUser: User,
-    @Args('postId') deletePostInput: DeletePostInput,
-  ) {
-    return await this.postsService.deletePost(authUser, deletePostInput);
+  async deletePost(@AuthUser() authUser: User, @Args('postId') id: number) {
+    return await this.postsService.deletePost(authUser, id);
   }
 
   @Query(() => PostsOutput)

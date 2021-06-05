@@ -281,7 +281,7 @@ export class PostsService {
    * @param user
    * @param postId
    */
-  async deletePost(user: User, { id }: DeletePostInput) {
+  async deletePost(user: User, id: number) {
     const post = await this.postRepository.findOne({ id });
     console.log(post);
     if (!post) {
