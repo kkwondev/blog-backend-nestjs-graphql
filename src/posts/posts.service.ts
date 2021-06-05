@@ -197,12 +197,12 @@ export class PostsService {
     try {
       // const newPost = this.postRepository.create(post);
       post.title = title;
-      const slug_title = post.title.replace(/ /g, '-');
+      // const slug_title = post.title.replace(/ /g, '-');
       post.content = content;
       post.thumbnail_img = thumbnail_img;
       post.user = user;
       post.category = category;
-      post.slug = slug_title;
+      // post.slug = slug_title;
       const savePost = await this.postRepository.save(post);
       const updateTags = await Promise.all(
         tags.map((tag) => this.createTag(tag)),
