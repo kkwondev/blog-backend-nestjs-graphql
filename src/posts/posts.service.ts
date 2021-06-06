@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import qs from 'querystring';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoriesService } from 'src/categories/categories.service';
 import { User } from 'src/users/entities/users.entity';
@@ -92,11 +93,12 @@ export class PostsService {
    */
 
   async searchPost(keyword: string) {
+    // const decodedStr = qs.unescape(keyword);
     const searchPost = await this.postRepository.find({
-      where: {
-        title: Like(`%${keyword}%`),
-        content: Like(`%${keyword}%`),
-      },
+      where: [
+        { title: Like(`%${keyword}%`) },
+        { content: Like(`%${keyword}%`) },
+      ],
       relations: ['user', 'category'],
     });
     if (searchPost.length === 0) {
