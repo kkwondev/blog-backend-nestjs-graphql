@@ -89,6 +89,7 @@ type Query {
   readPost(url_slug: String!): PostOutput!
   getPostTags(id: Float!): [PostTag!]!
   getPostByUserId(id: Float!): [Post!]!
+  searchPost(keyword: String!): PostsOutput!
   getCategoryPost(lastId: Float, name: String!): PostsOutput!
   getCategories: [Category!]!
   getCategory(id: Float!): Category!

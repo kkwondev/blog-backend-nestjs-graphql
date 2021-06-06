@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoriesService } from 'src/categories/categories.service';
 import { User } from 'src/users/entities/users.entity';
-import { LessThan, Repository } from 'typeorm';
+import { LessThan, Like, Repository } from 'typeorm';
 import { CreatePostInput } from './interfaces/create-post.dto';
 import { Post } from './entities/posts.entity';
 import { PostTag } from './entities/postTags.entity';
@@ -83,6 +83,33 @@ export class PostsService {
       success: true,
       post: post,
     };
+  }
+
+  /**
+   * keyword로 포스트 검색
+   * @param keyword
+   * @returns post[]
+   */
+
+  async searchPost(keyword: string) {
+    const searchPost = await this.postRepository.find({
+      where: {
+        title: Like(`%${keyword}`),
+        content: Like(`%${keyword}`),
+      },
+      relations: ['user', 'category'],
+    });
+    if (searchPost.length === 0) {
+      return {
+        success: false,
+        error: '검색결과가 없습니다.',
+      };
+    } else {
+      return {
+        success: true,
+        post: searchPost,
+      };
+    }
   }
 
   /**

@@ -49,6 +49,11 @@ export class PostsResolver {
     return await this.postsService.getPostByUserId(userId);
   }
 
+  @Query(() => PostsOutput)
+  async searchPost(@Args('keyword') keyword: string) {
+    return await this.postsService.searchPost(keyword);
+  }
+
   @Mutation(() => PostOutput)
   @UseGuards(AuthGuard)
   async createPost(
