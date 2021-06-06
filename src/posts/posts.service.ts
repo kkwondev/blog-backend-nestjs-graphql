@@ -94,8 +94,8 @@ export class PostsService {
   async searchPost(keyword: string) {
     const searchPost = await this.postRepository.find({
       where: {
-        title: Like(`%${keyword}`),
-        content: Like(`%${keyword}`),
+        title: Like(`%${keyword}%`),
+        content: Like(`%${keyword}%`),
       },
       relations: ['user', 'category'],
     });
