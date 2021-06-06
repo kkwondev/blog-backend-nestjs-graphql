@@ -86,4 +86,9 @@ export class PostsResolver {
   ) {
     return await this.postsService.getCategoryPost(name, lastId);
   }
+
+  @Query(() => PostsOutput)
+  async getTagPost(@Args('name') name: string) {
+    return await this.postsService.getTagPost(name);
+  }
 }

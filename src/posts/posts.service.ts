@@ -10,6 +10,7 @@ import { PostTag } from './entities/postTags.entity';
 import { Tag } from './entities/tags.entity';
 import { DeletePostInput } from './interfaces/delete-post.dto';
 import { UpdatePostInput } from './interfaces/update-post.dto';
+import { PostsOutput } from './interfaces/posts.dto';
 
 @Injectable()
 export class PostsService {
@@ -408,6 +409,40 @@ export class PostsService {
         hasMorePost: true,
         post: post,
       };
+    }
+  }
+
+  async getTagPost(name: string) {
+    const tag = await this.tagRepository.findOne({
+      where: {
+        title: name,
+      },
+    });
+    if (!tag) {
+      return {
+        success: false,
+        error: '태그가 존재하지 않습니다.',
+      };
+    } else {
+      try {
+        const tagResult = await this.posttagsRepository.find({
+          where: {
+            tagId: tag.id,
+          },
+          relations: ['post', 'post.user', 'post.category'],
+        });
+        const post = [];
+        tagResult.map((v) => post.push(v.post));
+        return {
+          success: true,
+          post: post,
+        };
+      } catch (e) {
+        return {
+          success: false,
+          error: e,
+        };
+      }
     }
   }
 }

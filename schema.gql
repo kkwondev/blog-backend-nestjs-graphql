@@ -91,6 +91,7 @@ type Query {
   getPostByUserId(id: Float!): [Post!]!
   searchPost(keyword: String!): PostsOutput!
   getCategoryPost(lastId: Float, name: String!): PostsOutput!
+  getTagPost(name: String!): PostsOutput!
   getCategories: [Category!]!
   getCategory(id: Float!): Category!
 }
